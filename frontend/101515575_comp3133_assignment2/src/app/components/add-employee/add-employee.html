@@ -1,0 +1,13 @@
+<div class="container mt-4">
+    <h2>Add Employee</h2>
+
+    <input class="form-control mb-2" [(ngModel)]="first_name" placeholder="First Name">
+    <input class="form-control mb-2" [(ngModel)]="last_name" placeholder="Last Name">
+    <input class="form-control mb-2" [(ngModel)]="email" placeholder="Email">
+    <input class="form-control mb-2" [(ngModel)]="designation" placeholder="Designation">
+    <input class="form-control mb-2" [(ngModel)]="salary" placeholder="Salary">
+    <input class="form-control mb-2" [(ngModel)]="date_of_joining" placeholder="YYYY-MM-DD">
+    <input class="form-control mb-2" [(ngModel)]="department" placeholder="Department">
+
+    <button class="btn btn-success" (click)="add()">Save</button>
+</div>

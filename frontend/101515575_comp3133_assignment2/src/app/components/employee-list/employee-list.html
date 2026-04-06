@@ -1,0 +1,32 @@
+<div class="container mt-4">
+    <h2>Employees</h2>
+
+    <button class="btn btn-danger me-2" (click)="logout()">Logout</button>
+    <button class="btn btn-success mb-3" routerLink="/add">Add Employee</button>
+
+    <!-- DEBUG -->
+    <p>Total Employees: {{ employees.length }}</p>
+
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>First</th>
+                <th>Last</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let emp of employees">
+                <td>{{ emp.first_name }}</td>
+                <td>{{ emp.last_name }}</td>
+                <td>{{ emp.email }}</td>
+                <td>
+                    <button class="btn btn-warning me-2" [routerLink]="['/update', emp.id]">Edit</button>
+                    <button class="btn btn-danger" (click)="delete(emp.id)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
