@@ -27,12 +27,11 @@ A professional MERN-stack application (MongoDB, Express, Angular, Node.js) featu
 2.  Install dependencies: `npm install`
 3.  Create a `.env` file in the `backend` folder and add your credentials:
     ```env
-MONGO_URI=your_mongodb_atlas_connection_string
-JWT_SECRET=your_chosen_secret_key
-
-CLOUD_NAME=your_cloudinary_cloud_name
-CLOUD_API_KEY=your_cloudinary_api_key
-CLOUD_API_SECRET=your_cloudinary_api_secret
+    MONGO_URI=your_mongodb_atlas_connection_string
+    JWT_SECRET=your_chosen_secret_key
+    CLOUD_NAME=your_cloudinary_cloud_name
+    CLOUD_API_KEY=your_cloudinary_api_key
+    CLOUD_API_SECRET=your_cloudinary_api_secret
     ```
 4.  Start the server: `npm start`.
 
@@ -40,7 +39,7 @@ CLOUD_API_SECRET=your_cloudinary_api_secret
 
 1.  Navigate to the frontend directory: `cd frontend`
 2.  Install dependencies: `npm install`
-3.  Start the Angular server: `ng serve`
+3.  Start the Angular server: `ng serve`.
 4.  Open your browser to: `http://localhost:4200`.
 
 ## ✅ Assignment Requirements Met
@@ -49,9 +48,9 @@ CLOUD_API_SECRET=your_cloudinary_api_secret
 - [x] Employee list with Search (Department/Designation).
 - [x] View, Update, and Delete Employee functionality.
 - [x] Profile Picture upload to Cloudinary.
-- [x] Formatted dates (`mediumDate`) and professional UI components.
+- [x] Formatted dates and professional UI components.
 
 ---
 
-**Author**:MD Tawsif Khan Siam  
+**Author**: MD Tawsif Khan Siam  
 **Student ID**: 101515575
