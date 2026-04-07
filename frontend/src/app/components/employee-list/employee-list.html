@@ -4,25 +4,40 @@
     <button class="btn btn-danger me-2" (click)="logout()">Logout</button>
     <button class="btn btn-success mb-3" routerLink="/add">Add Employee</button>
 
-    <!-- DEBUG -->
+    <div class="card p-3 mb-3 bg-light">
+        <h5>Search Employees</h5>
+        <div class="d-flex gap-2">
+            <input class="form-control" [(ngModel)]="searchDept" placeholder="Department">
+            <input class="form-control" [(ngModel)]="searchDesig" placeholder="Designation">
+            <button class="btn btn-primary" (click)="search()">Search</button>
+            <button class="btn btn-secondary" (click)="resetSearch()">Reset</button>
+        </div>
+    </div>
+
     <p>Total Employees: {{ employees.length }}</p>
 
     <table class="table table-bordered mt-3">
         <thead>
             <tr>
+                <th>Photo</th>
                 <th>First</th>
                 <th>Last</th>
-                <th>Email</th>
+                <th>Department</th>
                 <th>Actions</th>
             </tr>
         </thead>
-
         <tbody>
             <tr *ngFor="let emp of employees">
+                <td>
+                    <img *ngIf="emp.employee_photo" [src]="emp.employee_photo" alt="Profile"
+                        style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                    <span *ngIf="!emp.employee_photo">No Photo</span>
+                </td>
                 <td>{{ emp.first_name }}</td>
                 <td>{{ emp.last_name }}</td>
-                <td>{{ emp.email }}</td>
+                <td>{{ emp.department }}</td>
                 <td>
+                    <button class="btn btn-info me-2" [routerLink]="['/view', emp.id]">View</button>
                     <button class="btn btn-warning me-2" [routerLink]="['/update', emp.id]">Edit</button>
                     <button class="btn btn-danger" (click)="delete(emp.id)">Delete</button>
                 </td>

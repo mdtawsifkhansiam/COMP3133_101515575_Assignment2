@@ -1,13 +1,19 @@
 <div class="container mt-4">
     <h2>Add Employee</h2>
 
-    <input class="form-control mb-2" [(ngModel)]="first_name" placeholder="First Name">
-    <input class="form-control mb-2" [(ngModel)]="last_name" placeholder="Last Name">
-    <input class="form-control mb-2" [(ngModel)]="email" placeholder="Email">
-    <input class="form-control mb-2" [(ngModel)]="designation" placeholder="Designation">
-    <input class="form-control mb-2" [(ngModel)]="salary" placeholder="Salary">
-    <input class="form-control mb-2" [(ngModel)]="date_of_joining" placeholder="YYYY-MM-DD">
-    <input class="form-control mb-2" [(ngModel)]="department" placeholder="Department">
+    <form #empForm="ngForm" (ngSubmit)="add(empForm)">
+        <input class="form-control mb-2" name="first_name" ngModel required placeholder="First Name *">
+        <input class="form-control mb-2" name="last_name" ngModel required placeholder="Last Name *">
+        <input class="form-control mb-2" name="email" type="email" ngModel required placeholder="Email *">
+        <input class="form-control mb-2" name="designation" ngModel required placeholder="Designation *">
+        <input class="form-control mb-2" name="salary" type="number" ngModel required placeholder="Salary *">
+        <input class="form-control mb-2" name="date_of_joining" type="date" ngModel required placeholder="YYYY-MM-DD *">
+        <input class="form-control mb-2" name="department" ngModel required placeholder="Department *">
 
-    <button class="btn btn-success" (click)="add()">Save</button>
+        <label class="form-label mt-2">Profile Picture (Optional)</label>
+        <input class="form-control mb-3" type="file" (change)="onFileSelected($event)" accept="image/*">
+
+        <button class="btn btn-success" type="submit" [disabled]="empForm.invalid">Save</button>
+        <button class="btn btn-secondary ms-2" routerLink="/employees">Cancel</button>
+    </form>
 </div>

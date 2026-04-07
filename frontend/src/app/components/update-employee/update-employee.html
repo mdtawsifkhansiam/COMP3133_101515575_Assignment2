@@ -1,8 +1,32 @@
 <div class="container mt-4">
     <h2>Update Employee</h2>
+    <div class="card p-4 bg-light" *ngIf="empId">
+        <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
 
-    <input class="form-control mb-2" [(ngModel)]="firstName">
-    <input class="form-control mb-2" [(ngModel)]="lastName">
+            <div class="mb-3">
+                <label class="form-label text-muted">Employee Name (Cannot be changed)</label>
+                <input class="form-control bg-light" [value]="firstName + ' ' + lastName" disabled>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-muted">Email (Cannot be changed)</label>
+                <input class="form-control bg-light" [value]="email" disabled>
+            </div>
+            <hr>
 
-    <button class="btn btn-warning" (click)="update()">Update</button>
+            <label class="form-label">Designation</label>
+            <input class="form-control mb-3" name="designation" [(ngModel)]="designation" required>
+
+            <label class="form-label">Department</label>
+            <input class="form-control mb-3" name="department" [(ngModel)]="department" required>
+
+            <label class="form-label">Salary</label>
+            <input class="form-control mb-3" name="salary" type="number" [(ngModel)]="salary" required>
+
+            <label class="form-label">Update Profile Picture (Optional)</label>
+            <input class="form-control mb-4" type="file" (change)="onFileSelected($event)" accept="image/*">
+
+            <button class="btn btn-primary" type="submit" [disabled]="updateForm.invalid">Update</button>
+            <button class="btn btn-secondary ms-2" routerLink="/employees">Cancel</button>
+        </form>
+    </div>
 </div>

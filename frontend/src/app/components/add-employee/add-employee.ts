@@ -1,45 +1,56 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormsModule, NgForm } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { GraphqlService } from '../../services/graphql.service';
 
 @Component({
   selector: 'app-add-employee',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './add-employee.html'
 })
 export class AddEmployee {
-
-  first_name = '';
-  last_name = '';
-  email = '';
-  designation = '';
-  salary: any = '';
-  date_of_joining = '';
-  department = '';
+  selectedFile: File | null = null;
 
   constructor(private gql: GraphqlService, private router: Router) {}
 
-  add() {
+  // Fixes the "Property 'onFileSelected' does not exist" error
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
+  // Fixes the "Expected 0 arguments, but got 1" error
+  add(form: NgForm) {
+    if (form.invalid) return;
+
     const emp = {
-      first_name: this.first_name,
-      last_name: this.last_name,
-      email: this.email,
-      designation: this.designation,
-      salary: Number(this.salary),
-      date_of_joining: this.date_of_joining,
-      department: this.department
+      first_name: form.value.first_name,
+      last_name: form.value.last_name,
+      email: form.value.email,
+      designation: form.value.designation,
+      salary: Number(form.value.salary),
+      date_of_joining: form.value.date_of_joining,
+      department: form.value.department
     };
 
-    this.gql.addEmployee(emp).subscribe({
-      next: () => {
-        alert("Added!");
-        this.router.navigate(['/employees']);
+    this.gql.addEmployee(emp, this.selectedFile).subscribe({
+      next: (res: any) => {
+        // This catches the silent errors from the database!
+        if (res.errors) {
+          alert("Database Error: " + res.errors[0].message);
+          console.error("GraphQL Error:", res.errors);
+        } else {
+          alert("Employee Added Successfully!");
+          this.router.navigate(['/employees']);
+        }
       },
       error: (err) => {
-        console.error(err);
-        alert("Error");
+        console.error("Error adding employee:", err);
+        alert("Failed to add employee");
       }
     });
   }

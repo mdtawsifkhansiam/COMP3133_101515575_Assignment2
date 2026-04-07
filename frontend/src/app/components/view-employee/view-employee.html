@@ -1,6 +1,16 @@
 <div class="container mt-4">
     <h2>Employee Details</h2>
+    <div class="card" style="width: 25rem;" *ngIf="employee">
+        <img *ngIf="employee.employee_photo" [src]="employee.employee_photo" class="card-img-top" alt="Profile Photo">
+        <div class="card-body">
+            <h5 class="card-title">{{ employee.first_name }} {{ employee.last_name }}</h5>
+            <p class="card-text"><strong>Email:</strong> {{ employee.email }}</p>
+            <p class="card-text"><strong>Department:</strong> {{ employee.department }}</p>
+            <p class="card-text"><strong>Designation:</strong> {{ employee.designation }}</p>
+            <p class="card-text"><strong>Salary:</strong> ${{ employee.salary }}</p>
+            <p class="card-text"><strong>Joined:</strong> {{ employee.date_of_joining }}</p>
 
-    <p>First Name: {{employee.firstName}}</p>
-    <p>Last Name: {{employee.lastName}}</p>
+            <button class="btn btn-primary mt-3" routerLink="/employees">Back to List</button>
+        </div>
+    </div>
 </div>

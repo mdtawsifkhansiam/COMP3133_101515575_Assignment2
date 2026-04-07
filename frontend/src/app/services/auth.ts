@@ -5,12 +5,12 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
 
-  login(email: string, password: string) {
-    if (email && password) {
-      localStorage.setItem('token', '123');
-      return true;
-    }
-    return false;
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+  }
+
+  getToken() {
+    return localStorage.getItem('token');
   }
 
   logout() {
@@ -18,6 +18,6 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    return !!localStorage.getItem('token');
+    return !!this.getToken();
   }
 }

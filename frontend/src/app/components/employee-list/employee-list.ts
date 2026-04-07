@@ -1,52 +1,62 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // 1. Added ChangeDetectorRef
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { GraphqlService } from '../../services/graphql.service';
-import { ChangeDetectorRef } from '@angular/core';
-
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, RouterModule], 
+  imports: [CommonModule, RouterModule, FormsModule], 
   templateUrl: './employee-list.html'
 })
 export class EmployeeList implements OnInit {
-
   employees: any[] = [];
+  searchDept = '';
+  searchDesig = '';
 
-  constructor(private gql: GraphqlService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private gql: GraphqlService, 
+    private auth: AuthService, 
+    private router: Router,
+    private cdr: ChangeDetectorRef // 2. Injected it here
+  ) {}
 
   ngOnInit() {
     this.loadEmployees();
   }
 
   loadEmployees() {
-  this.gql.getAllEmployees().subscribe({
-    next: (res: any) => {
-      console.log("🔥 FULL RESPONSE:", JSON.stringify(res, null, 2));
-
-      this.employees =
-        res?.data?.getAllEmployees ||
-        res?.data?.data?.getAllEmployees ||
-        [];
-
-      console.log("✅ EMPLOYEES:", this.employees);
-    },
-    error: (err) => {
-      console.error("❌ ERROR:", err);
-    }
-  });
-}
-
-  delete(id: string) {
-    this.gql.deleteEmployee(id).subscribe(() => {
-      this.loadEmployees();
+    this.gql.getAllEmployees().subscribe((res: any) => {
+      this.employees = res?.data?.getAllEmployees || [];
+      this.cdr.detectChanges(); // 3. Forces Angular to update the screen instantly!
     });
   }
 
+  search() {
+    this.gql.searchEmployee(this.searchDesig, this.searchDept).subscribe((res: any) => {
+      this.employees = res?.data?.searchEmployee || [];
+      this.cdr.detectChanges(); // 4. Forces instant update for search results too
+    });
+  }
+
+  resetSearch() {
+    this.searchDept = '';
+    this.searchDesig = '';
+    this.loadEmployees();
+  }
+
+  delete(id: string) {
+    if(confirm("Are you sure?")) {
+      this.gql.deleteEmployee(id).subscribe(() => {
+        this.loadEmployees();
+      });
+    }
+  }
+
   logout() {
-    localStorage.removeItem('token');
-    window.location.href = '/';
+    this.auth.logout();
+    this.router.navigate(['/']);
   }
 }
