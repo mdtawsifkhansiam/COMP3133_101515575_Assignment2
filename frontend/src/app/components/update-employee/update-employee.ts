@@ -12,13 +12,12 @@ import { GraphqlService } from '../../services/graphql.service';
 })
 export class UpdateEmployee implements OnInit {
   empId = '';
-  // Added display fields
   firstName = '';
   lastName = '';
   email = '';
   
+  department = ''; // Added back
   designation = '';
-  department = '';
   salary: number = 0;
   selectedFile: File | null = null;
 
@@ -26,7 +25,7 @@ export class UpdateEmployee implements OnInit {
     private gql: GraphqlService, 
     private route: ActivatedRoute, 
     private router: Router,
-    private cdr: ChangeDetectorRef // Added ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -38,10 +37,10 @@ export class UpdateEmployee implements OnInit {
           this.firstName = emp.first_name;
           this.lastName = emp.last_name;
           this.email = emp.email;
+          this.department = emp.department; // Pre-fill existing data
           this.designation = emp.designation;
-          this.department = emp.department;
           this.salary = emp.salary;
-          this.cdr.detectChanges(); // Force UI update instantly
+          this.cdr.detectChanges();
         }
       });
     }
@@ -55,15 +54,19 @@ export class UpdateEmployee implements OnInit {
     if (form.invalid) return;
 
     const updates = {
+      department: this.department, // Send to backend
       designation: this.designation,
-      department: this.department,
       salary: Number(this.salary)
     };
 
     this.gql.updateEmployee(this.empId, updates, this.selectedFile).subscribe({
-      next: () => {
-        alert("Updated Successfully!");
-        this.router.navigate(['/employees']);
+      next: (res: any) => {
+        if (res.errors) {
+          alert("Error: " + res.errors[0].message);
+        } else {
+          alert("Employee updated successfully!");
+          this.router.navigate(['/employees']);
+        }
       },
       error: (err) => console.error("Update failed", err)
     });

@@ -8,8 +8,8 @@
             <p class="card-text"><strong>Department:</strong> {{ employee.department }}</p>
             <p class="card-text"><strong>Designation:</strong> {{ employee.designation }}</p>
             <p class="card-text"><strong>Salary:</strong> ${{ employee.salary }}</p>
-            <p class="card-text"><strong>Joined:</strong> {{ employee.date_of_joining }}</p>
-
+            <p class="card-text"><strong>Joined:</strong> {{ employee.date_of_joining| date:'mediumDate' }}</p>
+            
             <button class="btn btn-primary mt-3" routerLink="/employees">Back to List</button>
         </div>
     </div>

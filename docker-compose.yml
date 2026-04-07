@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+  backend:
+    build: ./backend
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/comp3133_assignment2
+      - JWT_SECRET=my_super_secret_key
+      - CLOUD_NAME=your_cloud_name
+      - CLOUD_API_KEY=your_api_key
+      - CLOUD_API_SECRET=your_api_secret
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend

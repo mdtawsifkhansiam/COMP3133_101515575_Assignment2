@@ -1,32 +1,59 @@
-<div class="container mt-4">
-    <h2>Update Employee</h2>
-    <div class="card p-4 bg-light" *ngIf="empId">
-        <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Update Employee Details</h2>
+        </div>
+        <div class="card-body bg-light" *ngIf="empId">
+            <form #updateForm="ngForm" (ngSubmit)="update(updateForm)" novalidate>
 
-            <div class="mb-3">
-                <label class="form-label text-muted">Employee Name (Cannot be changed)</label>
-                <input class="form-control bg-light" [value]="firstName + ' ' + lastName" disabled>
-            </div>
-            <div class="mb-3">
-                <label class="form-label text-muted">Email (Cannot be changed)</label>
-                <input class="form-control bg-light" [value]="email" disabled>
-            </div>
-            <hr>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small text-uppercase">Employee Name</label>
+                        <input class="form-control bg-white" [value]="firstName + ' ' + lastName" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted small text-uppercase">Email Address</label>
+                        <input class="form-control bg-white" [value]="email" disabled>
+                    </div>
+                </div>
+                <hr>
 
-            <label class="form-label">Designation</label>
-            <input class="form-control mb-3" name="designation" [(ngModel)]="designation" required>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Department *</label>
+                    <input class="form-control" name="department" [(ngModel)]="department" required #dept="ngModel"
+                        [class.is-invalid]="dept.invalid && dept.touched">
+                    <div class="invalid-feedback">Department cannot be empty.</div>
+                </div>
 
-            <label class="form-label">Department</label>
-            <input class="form-control mb-3" name="department" [(ngModel)]="department" required>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Designation *</label>
+                    <input class="form-control" name="designation" [(ngModel)]="designation" required #desig="ngModel"
+                        [class.is-invalid]="desig.invalid && desig.touched">
+                    <div class="invalid-feedback">Designation is required.</div>
+                </div>
 
-            <label class="form-label">Salary</label>
-            <input class="form-control mb-3" name="salary" type="number" [(ngModel)]="salary" required>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Salary *</label>
+                    <input class="form-control" name="salary" type="number" [(ngModel)]="salary" required #sal="ngModel"
+                        [class.is-invalid]="sal.invalid && sal.touched">
+                    <div class="invalid-feedback">Please enter a valid salary.</div>
+                </div>
 
-            <label class="form-label">Update Profile Picture (Optional)</label>
-            <input class="form-control mb-4" type="file" (change)="onFileSelected($event)" accept="image/*">
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Update Profile Picture</label>
+                    <input class="form-control" type="file" (change)="onFileSelected($event)" accept="image/*">
+                    <div class="form-text text-muted">Leave blank to keep existing photo.</div>
+                </div>
 
-            <button class="btn btn-primary" type="submit" [disabled]="updateForm.invalid">Update</button>
-            <button class="btn btn-secondary ms-2" routerLink="/employees">Cancel</button>
-        </form>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-primary px-4" type="submit" [disabled]="updateForm.invalid">
+                        Update Employee
+                    </button>
+                    <button class="btn btn-outline-secondary px-4" routerLink="/employees" type="button">
+                        Back to List
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

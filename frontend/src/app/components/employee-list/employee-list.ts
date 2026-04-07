@@ -48,12 +48,12 @@ export class EmployeeList implements OnInit {
   }
 
   delete(id: string) {
-    if(confirm("Are you sure?")) {
-      this.gql.deleteEmployee(id).subscribe(() => {
-        this.loadEmployees();
-      });
-    }
+  if (confirm("Are you sure you want to delete this employee? This action cannot be undone.")) {
+    this.gql.deleteEmployee(id).subscribe(() => {
+      this.loadEmployees();
+    });
   }
+}
 
   logout() {
     this.auth.logout();

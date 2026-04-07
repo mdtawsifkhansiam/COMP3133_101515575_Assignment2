@@ -12,6 +12,8 @@ import { AuthService } from '../../services/auth';
   templateUrl: './login.html'
 })
 export class Login {
+  message: string = ''; // Used for professional UI feedback
+  isError: boolean = false;
 
   constructor(
     private gql: GraphqlService, 
@@ -24,16 +26,25 @@ export class Login {
 
     this.gql.login(form.value.email, form.value.password).subscribe({
       next: (res) => {
-        if (res.data?.login?.token) {
-          this.auth.setToken(res.data.login.token);
-          this.router.navigate(['/employees']);
+        // Checking for GraphQL errors or missing token
+        if (res.errors || !res.data?.login?.token) {
+          this.isError = true;
+          this.message = res.errors ? res.errors[0].message : 'Invalid email or password.';
         } else {
-          alert('Invalid login. Please check credentials.');
+          this.isError = false;
+          this.message = 'Login successful! Redirecting...';
+          this.auth.setToken(res.data.login.token);
+          
+          // Small delay so user can see the success message
+          setTimeout(() => {
+            this.router.navigate(['/employees']);
+          }, 1500);
         }
       },
       error: (err) => {
         console.error(err);
-        alert(err.message || 'Login failed.');
+        this.isError = true;
+        this.message = 'Login failed. Please check your connection.';
       }
     });
   }

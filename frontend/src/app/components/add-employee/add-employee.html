@@ -1,19 +1,77 @@
-<div class="container mt-4">
-    <h2>Add Employee</h2>
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-success text-white">
+            <h2 class="mb-0">Add New Employee</h2>
+        </div>
+        <div class="card-body bg-light">
+            <form #empForm="ngForm" (ngSubmit)="add(empForm)" novalidate>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">First Name *</label>
+                        <input class="form-control" name="first_name" ngModel required #fName="ngModel"
+                            placeholder="Enter first name" [class.is-invalid]="fName.invalid && fName.touched">
+                        <div class="invalid-feedback">First name is required.</div>
+                    </div>
 
-    <form #empForm="ngForm" (ngSubmit)="add(empForm)">
-        <input class="form-control mb-2" name="first_name" ngModel required placeholder="First Name *">
-        <input class="form-control mb-2" name="last_name" ngModel required placeholder="Last Name *">
-        <input class="form-control mb-2" name="email" type="email" ngModel required placeholder="Email *">
-        <input class="form-control mb-2" name="designation" ngModel required placeholder="Designation *">
-        <input class="form-control mb-2" name="salary" type="number" ngModel required placeholder="Salary *">
-        <input class="form-control mb-2" name="date_of_joining" type="date" ngModel required placeholder="YYYY-MM-DD *">
-        <input class="form-control mb-2" name="department" ngModel required placeholder="Department *">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Last Name *</label>
+                        <input class="form-control" name="last_name" ngModel required #lName="ngModel"
+                            placeholder="Enter last name" [class.is-invalid]="lName.invalid && lName.touched">
+                        <div class="invalid-feedback">Last name is required.</div>
+                    </div>
+                </div>
 
-        <label class="form-label mt-2">Profile Picture (Optional)</label>
-        <input class="form-control mb-3" type="file" (change)="onFileSelected($event)" accept="image/*">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Email Address *</label>
+                    <input class="form-control" name="email" type="email" ngModel required email #emailRef="ngModel"
+                        placeholder="example@mail.com" [class.is-invalid]="emailRef.invalid && emailRef.touched">
+                    <div class="invalid-feedback" *ngIf="emailRef.errors?.['required']">Email is required.</div>
+                    <div class="invalid-feedback" *ngIf="emailRef.errors?.['email']">Please enter a valid email address.
+                    </div>
+                </div>
 
-        <button class="btn btn-success" type="submit" [disabled]="empForm.invalid">Save</button>
-        <button class="btn btn-secondary ms-2" routerLink="/employees">Cancel</button>
-    </form>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Department *</label>
+                        <input class="form-control" name="department" ngModel required #dept="ngModel"
+                            placeholder="e.g. Engineering" [class.is-invalid]="dept.invalid && dept.touched">
+                        <div class="invalid-feedback">Department is required.</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Designation *</label>
+                        <input class="form-control" name="designation" ngModel required #desig="ngModel"
+                            placeholder="e.g. Software Developer" [class.is-invalid]="desig.invalid && desig.touched">
+                        <div class="invalid-feedback">Designation is required.</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Salary *</label>
+                        <input class="form-control" name="salary" type="number" ngModel required #sal="ngModel"
+                            placeholder="0.00" [class.is-invalid]="sal.invalid && sal.touched">
+                        <div class="invalid-feedback">Salary is required.</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Date of Joining *</label>
+                        <input class="form-control" name="date_of_joining" type="date" ngModel required #doj="ngModel"
+                            [class.is-invalid]="doj.invalid && doj.touched">
+                        <div class="invalid-feedback">Date of joining is required.</div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Profile Picture (Optional)</label>
+                    <input class="form-control" type="file" (change)="onFileSelected($event)" accept="image/*">
+                    <small class="text-muted">Images will be stored securely via Cloudinary.</small>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success px-5" type="submit" [disabled]="empForm.invalid">Save
+                        Employee</button>
+                    <button class="btn btn-outline-secondary px-4" routerLink="/employees" type="button">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

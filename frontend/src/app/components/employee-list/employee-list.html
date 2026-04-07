@@ -16,32 +16,43 @@
 
     <p>Total Employees: {{ employees.length }}</p>
 
-    <table class="table table-bordered mt-3">
-        <thead>
-            <tr>
-                <th>Photo</th>
-                <th>First</th>
-                <th>Last</th>
-                <th>Department</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let emp of employees">
-                <td>
-                    <img *ngIf="emp.employee_photo" [src]="emp.employee_photo" alt="Profile"
-                        style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
-                    <span *ngIf="!emp.employee_photo">No Photo</span>
-                </td>
-                <td>{{ emp.first_name }}</td>
-                <td>{{ emp.last_name }}</td>
-                <td>{{ emp.department }}</td>
-                <td>
-                    <button class="btn btn-info me-2" [routerLink]="['/view', emp.id]">View</button>
-                    <button class="btn btn-warning me-2" [routerLink]="['/update', emp.id]">Edit</button>
-                    <button class="btn btn-danger" (click)="delete(emp.id)">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<table class="table table-hover mt-3">
+    <thead class="table-dark">
+        <tr>
+            <th>Photo</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let emp of employees">
+            <td class="align-middle">
+                <img *ngIf="emp.employee_photo" [src]="emp.employee_photo" class="rounded-circle"
+                    style="width: 40px; height: 40px; object-fit: cover;">
+                <img *ngIf="!emp.employee_photo"
+                    src="https://ui-avatars.com/api/?name={{emp.first_name}}+{{emp.last_name}}" class="rounded-circle"
+                    style="width: 40px; height: 40px;">
+            </td>
+            <td class="align-middle">{{ emp.first_name }}</td>
+            <td class="align-middle">{{ emp.last_name }}</td>
+            <td class="align-middle">{{ emp.email }}</td>
+            <td class="align-middle"><span class="badge bg-info text-dark">{{ emp.department }}</span></td>
+            <td class="align-middle">{{ emp.designation }}</td>
+            <td class="align-middle">
+                <button class="btn btn-sm btn-outline-primary me-1" [routerLink]="['/view', emp.id]">View</button>
+                <button class="btn btn-sm btn-outline-warning me-1" [routerLink]="['/update', emp.id]">Edit</button>
+                <button class="btn btn-sm btn-outline-danger" (click)="delete(emp.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div *ngIf="employees.length === 0" class="text-center mt-5 p-5 border rounded bg-light">
+    <i class="bi bi-people shadow-sm" style="font-size: 3rem; color: #ccc;"></i>
+    <p class="mt-3 text-muted">No employees found matching your criteria.</p>
+    <button class="btn btn-sm btn-link" (click)="resetSearch()">Clear all filters</button>
+</div>
 </div>

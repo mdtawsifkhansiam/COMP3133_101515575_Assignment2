@@ -53,7 +53,8 @@ export class GraphqlService {
       query: `
         query {
           getAllEmployees {
-            id first_name last_name email department designation employee_photo
+            id first_name last_name email department designation employee_photo 
+    salary date_of_joining
           }
         }
       `

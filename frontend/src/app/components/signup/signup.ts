@@ -11,6 +11,8 @@ import { GraphqlService } from '../../services/graphql.service';
   templateUrl: './signup.html'
 })
 export class Signup {
+  message: string = ''; // Used for professional UI feedback
+  isError: boolean = false;
 
   constructor(private gql: GraphqlService, private router: Router) {}
 
@@ -20,15 +22,21 @@ export class Signup {
     this.gql.signup(form.value.username, form.value.email, form.value.password).subscribe({
       next: (res) => {
         if (res.errors) {
-          alert('Error: ' + res.errors[0].message);
+          this.isError = true;
+          this.message = 'Error: ' + res.errors[0].message;
         } else {
-          alert('Signup successful! Please log in.');
-          this.router.navigate(['/']);
+          this.isError = false;
+          this.message = 'Signup successful! Redirecting to login...';
+          // Navigate after a short delay so user can see the success message
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 2000);
         }
       },
       error: (err) => {
         console.error(err);
-        alert('Signup failed. Check console for details.');
+        this.isError = true;
+        this.message = 'Signup failed. Please try again later.';
       }
     });
   }
